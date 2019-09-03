@@ -1,25 +1,22 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Soti</title>
 <meta name="viewport" content="width=device-width">
-<style type="text/css">
+<style>
 	html, body {
 		background: #FFF;
 		height:100%; /* needed for container min-height */
 		margin: 0px 0px 0px 0px;
 	}
-
 	/* Wraps the screen in a tag */
 	#wrapper {
 		min-height:100%;
 		position:relative;
 	}
-
 	/* Makes links look like standard text (No underline or blue) */
 	a:link { text-decoration: none; }
-
 	/* This is the header, it's position is fixed which means it stays in place even while scrolling */
 	/* The rest of the style is on the orientation style below in the script section */
 	#Header {
@@ -38,7 +35,6 @@
 		padding: 4px;
 		margin: auto;
 	}
-
 	/* The rest of the style is on the orientation style below in the script section */
 	#Header .Title {
 		text-align: center;
@@ -47,7 +43,6 @@
 		display:block;
 		margin: auto;
 	}
-
 	/* The rest of the style is on the orientation style below in the script section */
 	#Main .row ul li {
 		padding: 2px;
@@ -59,16 +54,13 @@
 		display:table-cell;
 		float:left;
 	}
-
 	/* The rest of the img style is on the orientation style below in the script section */
 	#Main .row ul li img {
 		border: 0;
 	}
-
 	#Main .row ul li .txt {
 		color: #666666;
 	}
-
 	/* The footer is fixed so it stays in place even while scrolling */
 	#Footer {
 		background-color: #000;
@@ -78,7 +70,6 @@
 		padding:0;
 		width:100%;
 	}
-
 	#Footer .Title {
 		text-align: center;
 		color: #FFF;
@@ -92,7 +83,6 @@
 		white-space:nowrap;
 		margin: 0px auto;
 	}
-
 	#Main .row ul {
 		list-style: none;
 		margin:0;
@@ -100,11 +90,9 @@
 		display: table-row;
 		white-space:nowrap;
 	}
-
 	#Main .row ul br {
 		clear: both;
 	}
-
 	/* This sets the image details on the footer. This is what forces the size of the footer image to almost the whole hight of the footer */
 	#Footer img {
 		display:block;
@@ -113,7 +101,6 @@
 		padding: 4px;
 		margin: auto;
 	}
-
 </style>
 </head>
 
@@ -132,7 +119,6 @@
 	<div id="Footer">
 	</div>
 </div>
-</body>
 <script>
 	// The script adds a dynamic nature to the template.
 	// It does this by checking the <MCLink#> tag which Soti's client will change to the string typed into that field, in the lockdown policy.  If the tag isn't changed it knows that there is nothing setup
@@ -149,7 +135,6 @@
 	//
 	// The script also automatically uses the correct image file.  If an image has been set in the Image dropdown, in the Lockdown policy, it will use that.
 	// If it there is no image set it will use the exe default icon.
-
 	var main_row_ul_li_height, main_row_ul_li_img, main_row_ul_li_txt, main_row_ul_li_width, HTMLheader, HTMLfooter, IconCount;
 	var SotiLink = [], SotiImg = [], SotiDisp = [], SotiDispImg = [], SotiExeImg = [];
 	
@@ -164,9 +149,13 @@
 	
 	function SotiLinkCheck() {
 		var Count, SotiValidate;
+		HTMLheader = "";
+		HTMLfooter = "";
 		SotiValidate = 0;
 		Count = 0;
 		IconCount = 0;
+		HeaderCheck = 0;
+		FooterCheck = 0;
 		
 		SotiLink[0] = "<MCLink0>";
 		SotiDisp[0] = "<MCDISP0>";
@@ -258,6 +247,7 @@
 						} else {
 							HTMLheader = "<img src=\"" + SotiDispImg[index] + "\" />";
 						}
+						HeaderCheck = 1;
 					break;
 					case "FOOTER":
 						if (SotiDispImg[index] === "") {
@@ -265,6 +255,7 @@
 						} else {
 							HTMLfooter = "<img src=\"" + SotiDispImg[index] + "\" />";
 						}
+						FooterCheck = 1
 					break;
 				}
 			} else {
@@ -286,6 +277,7 @@
 	
 	// This adds CSS code to detect and change the layout depending on the devices current orientation.  It's done here so that the JavaScript can adjust for how many total icons there will be.
 	function CSSOrientationSetup() {
+		var HeaderPortrait, HeaderLandscape, FooterPortrait, FooterLandscape;
 		if (IconCount < 7) {
 			main_row_ul_li_width = "135px";
 			main_row_ul_li_height = "153px";
@@ -297,11 +289,41 @@
 			main_row_ul_li_txt = "font: bold 16px arial,sans-serif;";
 			main_row_ul_li_img = "76px";
 		}
-
+		if (HeaderCheck == 1) {
+			HeaderPortrait = "#Header {height: 60px;} #Header .Title {font: bold 40px arial,sans-serif; line-height: 60px; padding: 0px;}";
+			HeaderLandscape = "#Header {height: 45px;} #Header .Title {font: bold 35px arial,sans-serif; line-height: 45px; padding: 0px;}";
+		} else {
+			HeaderPortrait = "#Header {height: 0px;} #Header .Title {font: bold 0px arial,sans-serif; line-height: 0px; padding: 0px;}";
+			HeaderLandscape = "#Header {height: 0px;} #Header .Title {font: bold 0px arial,sans-serif; line-height: 0px; padding: 0px;}";
+		}
+		if (FooterCheck == 1) {
+			FooterPortrait = "#Footer {height: 50px;} #Footer .Title {font: bold 30px arial,sans-serif; line-height: 50px; padding: 0px;}";
+			FooterLandscape = "#Footer {height: 35px;} #Footer .Title {font: bold 25px arial,sans-serif; line-height: 35px; padding: 0px;}";
+		} else {
+			FooterPortrait = "#Footer {height: 0px;} #Footer .Title {font: bold 0px arial,sans-serif; line-height: 0px; padding: 0px;}";
+			FooterLandscape = "#Footer {height: 0px;} #Footer .Title {font: bold 0px arial,sans-serif; line-height: 0px; padding: 0px;}";
+		}
+		if (HeaderCheck == 1) {
+			if (FooterCheck == 1) {
+				PaddingPortrait = "#Main {text-align:center; padding: 75px 0px 55px 0px;}";
+				PaddingLandscape = "#Main {padding: 45px 0px 30px 0px;}";
+			} else {
+				PaddingPortrait = "#Main {text-align:center; padding: 75px 0px 0px 0px;}";
+				PaddingLandscape = "#Main {padding: 45px 0px 0px 0px;}";
+			}
+		} else {
+			if (FooterCheck == 1) {
+				PaddingPortrait = "#Main {text-align:center; padding: 0px 0px 55px 0px;}";
+				PaddingLandscape = "#Main {padding: 0px 0px 30px 0px;}";
+			} else {
+				PaddingPortrait = "#Main {text-align:center; padding: 0px 0px 0px 0px;}";
+				PaddingLandscape = "#Main {padding: 0px 0px 0px 0px;}";
+			}
+		}
 		try {
 			var sheet = document.styleSheets[0];
-			sheet.insertRule("@media screen and (orientation:portrait){#portraitContent {display: block;} #landscapeContent {display: none;} #Header {height: 60px;} #Header .Title {font: bold 40px arial,sans-serif; line-height: 60px; padding: 0px;} #Main {text-align:center; padding: 75px 0px 55px 0px;} #Main .row ul li {width: " + main_row_ul_li_width + "; height: " + main_row_ul_li_height + ";} #Main .row ul li img {width: " + main_row_ul_li_img + "; height: " + main_row_ul_li_img + "; padding: 12px;} #Main .row ul li .txt {" + main_row_ul_li_txt + ";} #Footer {height: 50px;} #Footer .Title {font: bold 30px arial,sans-serif; line-height: 50px; padding: 0px;}}");
-			sheet.insertRule("@media screen and (orientation:landscape){#portraitContent {display: none;} #landscapeContent {display: block;} #Header {height: 45px;} #Header .Title {font: bold 35px arial,sans-serif; line-height: 45px; padding: 0px;} #Main {padding: 45px 0px 30px 0px;} #Main .row ul li {width: 115px; height: 110px;} #Main .row ul li img {width: 76px; height: 76px; padding: 6px;} #Main .row ul li .txt {font: bold 15px arial,sans-serif;} #Footer {height: 35px;} #Footer .Title {font: bold 25px arial,sans-serif; line-height: 35px; padding: 0px;}}");
+			sheet.insertRule("@media screen and (orientation:portrait){#portraitContent {display: block;} #landscapeContent {display: none;} " + HeaderPortrait + " " + PaddingPortrait + " #Main .row ul li {width: " + main_row_ul_li_width + "; height: " + main_row_ul_li_height + ";} #Main .row ul li img {width: " + main_row_ul_li_img + "; height: " + main_row_ul_li_img + "; padding: 12px;} #Main .row ul li .txt {" + main_row_ul_li_txt + ";} " + FooterPortrait + " }");
+			sheet.insertRule("@media screen and (orientation:landscape){#portraitContent {display: none;} #landscapeContent {display: block;} " + HeaderLandscape + " " + PaddingLandscape + " #Main .row ul li {width: 115px; height: 110px;} #Main .row ul li img {width: 76px; height: 76px; padding: 6px;} #Main .row ul li .txt {font: bold 15px arial,sans-serif;} " + FooterLandscape + " }");
 		} catch (err) {
 			alert(err.message);
 		}
@@ -335,7 +357,6 @@
 		} else {
 			document.getElementById("portraitContent").innerHTML = TableHTML;
 		}
-
 		document.getElementById("landscapeContent").innerHTML = TableHTML;
 		document.getElementById("Header").innerHTML = HTMLheader;
 		document.getElementById("Footer").innerHTML = HTMLfooter;
@@ -343,4 +364,5 @@
 		return;
 	}
 </script>
+</body>
 </html>
