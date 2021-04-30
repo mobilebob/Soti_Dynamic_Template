@@ -119,6 +119,7 @@
 	<div id="Footer">
 	</div>
 </div>
+</body>
 <script>
 	// The script adds a dynamic nature to the template.
 	// It does this by checking the <MCLink#> tag which Soti's client will change to the string typed into that field, in the lockdown policy.  If the tag isn't changed it knows that there is nothing setup
@@ -239,8 +240,8 @@
 		SotiDispImg[19] = "<MCDispImg19>";	
 		
 		for	(index = 0; index < 20; index++) {
-			if (SotiLink[index].split(" ")[0] == "HTML") {
-				switch(SotiLink[index].split(" ")[1]) {
+			if (SotiLink[index].split(/[\s-]/)[0] == "HTML") {
+				switch(SotiLink[index].split(/[\s-]/)[1]) {
 					case "HEADER":
 						if (SotiDispImg[index] === "") {
 							HTMLheader = "<span class=\"Title\">" + SotiDisp[index] + "</span>" ;
@@ -336,7 +337,7 @@
 		counter = 0;
 		TableHTML = "<div id=\"Main\"> <div class=\"row\"> <ul>";
 		for	(index = 0; index < SotiLink.length; index++) {
-			if (SotiLink[index].split(" ")[0] != "HTML") {
+			if (SotiLink[index].split(/[\s-]/)[0] != "HTML") {
 				TableHTML += "<li><a href =\"" + SotiLink[index] + "\"><img src=\"" + SotiImg[index] + "\"/><div class=\"txt\">" + SotiDisp[index] + "</div></a></li>";
 			}
 		}
@@ -344,7 +345,7 @@
 		if (IconCount < 7) {
 			AltPortraitHTML = "<div id=\"Main\"> <div class=\"row\"> <ul>";
 			for	(index = 0; index < SotiLink.length; index++) {
-				if (SotiLink[index].split(" ")[0] != "HTML") {
+				if (SotiLink[index].split(/[\s-]/)[0] != "HTML") {
 					if (counter % 2 === 0) {
 						AltPortraitHTML += "</ul></div><div class=\"row\"><ul>";
 					}
@@ -364,5 +365,4 @@
 		return;
 	}
 </script>
-</body>
 </html>
