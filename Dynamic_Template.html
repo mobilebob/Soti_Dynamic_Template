@@ -244,33 +244,39 @@
 				switch(SotiLink[index].split(/[\s-]/)[1]) {
 					case "HEADER":
 						if (SotiDispImg[index] === "") {
-							HTMLheader = "<span class=\"Title\">" + SotiDisp[index] + "</span>" ;
+							HTMLheader = HTMLheader + "<span class=\"Title\">" + SotiDisp[index] + "</span>" ;
 						} else {
-							HTMLheader = "<img src=\"" + SotiDispImg[index] + "\" />";
+							HTMLheader = HTMLheader + "<img src=\"" + SotiDispImg[index] + "\" />";
 						}
 						HeaderCheck = 1;
 					break;
 					case "FOOTER":
 						if (SotiDispImg[index] === "") {
-							HTMLfooter = "<span class=\"Title\">" + SotiDisp[index] + "</span>";
+							HTMLfooter = HTMLfooter + "<span class=\"Title\">" + SotiDisp[index] + "</span>";
 						} else {
-							HTMLfooter = "<img src=\"" + SotiDispImg[index] + "\" />";
+							HTMLfooter = HTMLfooter + "<img src=\"" + SotiDispImg[index] + "\" />";
 						}
 						FooterCheck = 1
 					break;
 				}
 			} else {
 				SotiValidate = SotiLink[index].search("MCLink");
-				if (SotiValidate === -1) {
-					if (SotiDispImg[index] === "") {
-						SotiImg[index] = SotiExeImg[index];
+				if (SotiDisp[index] != "HIDDEN") {
+					if (SotiValidate === -1) {
+						if (SotiDispImg[index] === "") {
+							SotiImg[index] = SotiExeImg[index];
+						} else {
+							SotiImg[index] = SotiDispImg[index];
+						}
+						IconCount++;
 					} else {
-						SotiImg[index] = SotiDispImg[index];
+						SotiLink.length = index;
+						return;
 					}
-					IconCount++;
-				} else {
-					SotiLink.length = index;
-					return;
+				 
+			
+							 
+			
 				}
 			}
 		}
@@ -279,7 +285,7 @@
 	// This adds CSS code to detect and change the layout depending on the devices current orientation.  It's done here so that the JavaScript can adjust for how many total icons there will be.
 	function CSSOrientationSetup() {
 		var HeaderPortrait, HeaderLandscape, FooterPortrait, FooterLandscape;
-		if (IconCount < 7) {
+		if (IconCount < 5) {
 			main_row_ul_li_width = "135px";
 			main_row_ul_li_height = "153px";
 			main_row_ul_li_txt = "font: bold 17px arial,sans-serif;";
@@ -306,7 +312,7 @@
 		}
 		if (HeaderCheck == 1) {
 			if (FooterCheck == 1) {
-				PaddingPortrait = "#Main {text-align:center; padding: 75px 0px 55px 0px;}";
+				PaddingPortrait = "#Main {text-align:center; padding: 75px 0px 65px 0px;}";
 				PaddingLandscape = "#Main {padding: 45px 0px 30px 0px;}";
 			} else {
 				PaddingPortrait = "#Main {text-align:center; padding: 75px 0px 0px 0px;}";
@@ -314,7 +320,7 @@
 			}
 		} else {
 			if (FooterCheck == 1) {
-				PaddingPortrait = "#Main {text-align:center; padding: 0px 0px 55px 0px;}";
+				PaddingPortrait = "#Main {text-align:center; padding: 0px 0px 65px 0px;}";
 				PaddingLandscape = "#Main {padding: 0px 0px 30px 0px;}";
 			} else {
 				PaddingPortrait = "#Main {text-align:center; padding: 0px 0px 0px 0px;}";
@@ -337,15 +343,15 @@
 		counter = 0;
 		TableHTML = "<div id=\"Main\"> <div class=\"row\"> <ul>";
 		for	(index = 0; index < SotiLink.length; index++) {
-			if (SotiLink[index].split(/[\s-]/)[0] != "HTML") {
+			if (SotiLink[index].split(/[\s-]/)[0] != "HTML" && SotiDisp[index] != "HIDDEN") {
 				TableHTML += "<li><a href =\"" + SotiLink[index] + "\"><img src=\"" + SotiImg[index] + "\"/><div class=\"txt\">" + SotiDisp[index] + "</div></a></li>";
 			}
 		}
 		TableHTML += "</ul></div></div>";
-		if (IconCount < 7) {
+		if (IconCount < 5) {
 			AltPortraitHTML = "<div id=\"Main\"> <div class=\"row\"> <ul>";
 			for	(index = 0; index < SotiLink.length; index++) {
-				if (SotiLink[index].split(/[\s-]/)[0] != "HTML") {
+				if (SotiLink[index].split(/[\s-]/)[0] != "HTML" && SotiDisp[index] != "HIDDEN") {
 					if (counter % 2 === 0) {
 						AltPortraitHTML += "</ul></div><div class=\"row\"><ul>";
 					}
